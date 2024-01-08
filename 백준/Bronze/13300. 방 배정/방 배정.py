@@ -9,27 +9,17 @@ for i in range(6):
     student.append([0,0])
 # print(student)
 
-room=12
+room=0
 
 for i in range(n):
     sex, grade = map(int, sys_input().split())
-    if(sex==0):
-        student[grade-1][0] += 1
-        if(student[grade-1][0] > k):
-            room +=1
-        
-    elif(sex==1):
-        student[grade-1][1] += 1
-        if(student[grade-1][1] > k):
-            room +=1
-    
-
-# zero = student[].count(0)
-# print(zero)
+    student[grade-1][sex] += 1
 
 for i in range(6):
-    if(student[i].count(0)>0):
-        room -= student[i].count(0)
-# room -= zero
+    for j in range(2):
+        if(student[i][j]%k == 0):
+            room += student[i][j]/k
+        else:
+            room += student[i][j]//k + 1
 
-print(room)
+print(int(room))
