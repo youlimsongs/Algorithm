@@ -1,29 +1,35 @@
-import sys
-input = sys.stdin.readline
-
 n = int(input())
 route = [[0 for _ in range(n)] for _ in range(n)]
 
+#입력 처리
 for i in range(n-1):
     cnt = int(input())
     row = (list(map(int, input().split())))
     for r in row:
-        # print(i,r)
         route[i][r-1]=1
 
+#방문처리 0:미방문, 1:방문, 2:탐색 완료
+visited = [0 for _ in range(n)]
+is_cycle=False
 
-# print(route)
-        
-for k in range(n-1):
-    for i in range(n-1):
-        for j in range(n-1):
-            # 시작점이 중간지점과 연결되어있고 중간지점과 도착지점이 연결되어 있다면
-            if(route[i][k] and route[k][j]):
-                route[i][j]=1 #출발, 도착지점을 연결표시
+def dfs(v):
+    global is_cycle
 
-for i in range(n-1):
-    if route[0][i] and route[i][i]:
-        print("CYCLE")
-        quit()
+    # 방문 처리
+    visited[v]=1
     
-print("NO CYCLE")
+    # 자식 탐색
+    for i in range(n):
+        if(route[v][i]):
+            if visited[i]==0:
+                dfs(i)
+            elif visited[i]==1:
+                is_cycle=True
+                return
+    
+    #모든 자식 탐색 완료
+    visited[v]=2
+        
+dfs(0)
+
+print("CYCLE" if is_cycle else "NO CYCLE")
